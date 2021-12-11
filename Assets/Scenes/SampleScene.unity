@@ -239,6 +239,8 @@ MonoBehaviour:
   DarkTile: {fileID: 768113760577290873, guid: b66d8895ee0ed4b67aeb056973b2af06, type: 3}
   Spike: {fileID: 7218657365550109630, guid: 383156ae9ed12444697167abee8f6346, type: 3}
   Wall: {fileID: 6706500046394531733, guid: 135a1253cb0a54fcdb610bb23f4385dd, type: 3}
+  StartPlatform: {fileID: 7714162313016107418, guid: ffb32992455424e3db97768d84f7c33b, type: 3}
+  EndPlatform: {fileID: 119060888595866446, guid: 3e08f3a1cd33b49788db913096f200ae, type: 3}
 --- !u!4 &963625917
 Transform:
   m_ObjectHideFlags: 0
@@ -251,7 +253,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724625705 stripped
 GameObject:
@@ -286,7 +288,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1844798370523664142, guid: 1b2ebae32943e4ef688b78a5219bc87c, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1844798370523664142, guid: 1b2ebae32943e4ef688b78a5219bc87c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -328,8 +330,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1844798370523664178, guid: 1b2ebae32943e4ef688b78a5219bc87c, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1844798370523664179, guid: 1b2ebae32943e4ef688b78a5219bc87c, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1844798370523664179, guid: 1b2ebae32943e4ef688b78a5219bc87c, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []

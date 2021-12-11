@@ -49,5 +49,6 @@ public class World : MonoBehaviour
         }
         grid.SetValue(1, 3, StartPlatform);
         grid.SetValue(14, 3, EndPlatform);
+        grid.SetValue(2, 3, Spike);
     }
 }
