@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid {
+    private GameObject tilePrefab;
     private GameObject parent;
     private Vector3 originPosition;
     private int width, height;
     private float cellSize;
-    private int[,] gridArray;
-    private TextMesh[,] debugTextArray;
+    private GameObject[,] gridArray;
 
-    public Grid(GameObject parent, int width, int height, float cellSize, Vector3 originPosition = new Vector3()) {
+    public Grid(GameObject tilePrefab, GameObject parent, int width, int height, float cellSize, Vector3 originPosition = new Vector3()) {
+        this.tilePrefab = tilePrefab;
         this.parent = parent;
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
         this.originPosition = originPosition;
 
-        gridArray = new int[width, height];
-        debugTextArray = new TextMesh[width, height];
+        gridArray = new GameObject[width, height];
 
         for(int x = 0; x < gridArray.GetLength(0); x++) {
             for(int y = 0; y < gridArray.GetLength(1); y++) {
-                debugTextArray[x, y] = CreateWorldText(this.parent.transform, gridArray[x, y].ToString(), GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 10, Color.white, TextAnchor.MiddleCenter, TextAlignment.Center, 2);
+                gridArray[x, y] = CreateWorldObject(tilePrefab, GetWorldPosition(x, y));
+
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100000);
                 Debug.DrawLine(GetWorldPosition(x + 1, y), GetWorldPosition(x, y), Color.white, 100000);
             }
@@ -32,47 +33,56 @@ public class Grid {
     }
 
     private Vector3 GetWorldPosition(int x, int y) {
-        return new Vector3(x, y) * cellSize + originPosition;
+        return new Vector3(x, y) * this.cellSize + this.originPosition;
     }
 
-    public static TextMesh CreateWorldText(Transform parent, string text, Vector3 localPosition, int fontSize, Color color, TextAnchor textAnchor, TextAlignment textAlignment, int sortingOrder) {
-        GameObject gameObject = new GameObject("World_Text", typeof(TextMesh));
-        Transform transform = gameObject.transform;
-        transform.SetParent(parent, false);
-        transform.localPosition = localPosition;
-        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-        textMesh.anchor = textAnchor;
-        textMesh.alignment = textAlignment;
-        textMesh.text = text;
-        textMesh.fontSize = fontSize;
-        textMesh.color = color;
-        textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
-        return textMesh;
+    public GameObject CreateWorldObject(GameObject prefab, Vector3 position) {
+        GameObject worldObject = GameObject.Instantiate(prefab) as GameObject;
+        worldObject.transform.parent = this.parent.transform;
+        worldObject.name = prefab.name;
+        worldObject.transform.localScale = Vector3.one * this.cellSize;
+        worldObject.transform.position = position + Vector3.one * this.cellSize * 0.5f;
+        switch(worldObject.tag) {
+            case "Wall":
+                worldObject.transform.localScale *= 3f;
+                worldObject.transform.position += Vector3.up * this.cellSize * 0.2f;
+                break;
+            case "Spikes":
+                worldObject.transform.localScale *= 3f;
+                break;
+            case "Start":
+                worldObject.transform.localScale *= 3f;
+                break;
+            case "End":
+                worldObject.transform.localScale *= 3f;
+                break;
+        }
+        return worldObject;
     }
 
-    private void GetXY(Vector3 worldPosition, out int x, out int y) {
+    public void GetXY(Vector3 worldPosition, out int x, out int y) {
         x = Mathf.FloorToInt((worldPosition.x - originPosition.x) / cellSize);
         y = Mathf.FloorToInt((worldPosition.y - originPosition.y) / cellSize);
     }
 
-    public void SetValue(int x, int y, int value) {
+    public void SetValue(int x, int y, GameObject value) {
         if(x < 0 || x >= width || y < 0 || y >= height) return;
-        gridArray[x, y] = value;
-        debugTextArray[x, y].text = gridArray[x, y].ToString();
+        if(gridArray[x, y] != null) GameObject.Destroy(gridArray[x, y]);
+        gridArray[x, y] = CreateWorldObject(value, GetWorldPosition(x, y));
     }
 
-    public void SetValue(Vector3 worldPosition, int value) {
+    public void SetValue(Vector3 worldPosition, GameObject value) {
         int x, y;
         GetXY(worldPosition, out x, out y);
         SetValue(x, y, value);
     }
 
-    public int GetValue(int x, int y) {
-        if(x < 0 || x >= width || y < 0 || y >= height) return -1;
+    public GameObject GetValue(int x, int y) {
+        if(x < 0 || x >= width || y < 0 || y >= height) return null;
         return gridArray[x, y];
     }
 
-    public int GetValue(Vector3 worldPosition) {
+    public GameObject GetValue(Vector3 worldPosition) {
         int x, y;
         GetXY(worldPosition, out x, out y);
         return GetValue(x, y);
