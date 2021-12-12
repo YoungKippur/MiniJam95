@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class StartTP : MonoBehaviour
 {
-    public GameObject Player, EndTeleport;
+    GameObject Player, EndTeleport;
+
+    void Start(){
+        EndTeleport = GameObject.Find("End");
+        Player = GameObject.Find("Player");
+    }
 
     void OnTriggerEnter2D(Collider2D collider){
         if (collider.gameObject.tag == "Player"){
             Debug.Log("TP");
-            Player.transform.position = new Vector2(EndTeleport.transform.position.x, EndTeleport.transform.position.y);
+            Player.transform.localPosition = EndTeleport.transform.localPosition;
         }
     }
 }
