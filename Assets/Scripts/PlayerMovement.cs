@@ -35,8 +35,4 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
         }
     }
-
-    public void Teleport(Vector3 vector){
-        transform.localPosition = vector;
-    }
 }

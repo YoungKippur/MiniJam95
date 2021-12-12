@@ -122,5 +122,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67870e65b689edf449acf0effa6d3634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1844798370523664179, guid: 1b2ebae32943e4ef688b78a5219bc87c, type: 3}
-  EndTeleport: {fileID: 119060888595866446, guid: 3e08f3a1cd33b49788db913096f200ae, type: 3}
+  interval: 0.5
