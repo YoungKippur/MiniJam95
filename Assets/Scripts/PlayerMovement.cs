@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = new Vector2(x * speed, y * speed);
 
-        Debug.Log(direction);
+        //Debug.Log(direction);
         if((direction == "RIGHT" && x < 0) || (direction == "LEFT" && x > 0)) {
             direction = direction == "LEFT" ? "RIGHT" : "LEFT";
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
