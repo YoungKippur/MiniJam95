@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5786990960689913994}
   - component: {fileID: 4905313087833412375}
   m_Layer: 0
-  m_Name: End
+  m_Name: EndTeleport
   m_TagString: End
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

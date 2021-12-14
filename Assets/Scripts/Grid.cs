@@ -9,6 +9,7 @@ public class Grid {
     private int width, height;
     private float cellSize;
     private GameObject[,] gridArray;
+    private int changeCount;
 
     public Grid(GameObject tilePrefab, GameObject parent, int width, int height, float cellSize, Vector3 originPosition = new Vector3()) {
         this.tilePrefab = tilePrefab;
@@ -17,6 +18,7 @@ public class Grid {
         this.height = height;
         this.cellSize = cellSize;
         this.originPosition = originPosition;
+        this.changeCount = 0;
 
         gridArray = new GameObject[width, height];
 
@@ -65,16 +67,37 @@ public class Grid {
         y = Mathf.FloorToInt((worldPosition.y - originPosition.y) / cellSize);
     }
 
+    public void SetValue(int x, int y, GameObject[] values) {
+        if(x < 0 || x >= width || y < 0 || y >= height) return;
+        if(this.changeCount > 57 && ((x == 1 && y == 3) || (x == 14 && y == 3))) return;
+        if(gridArray[x, y] != null) GameObject.Destroy(gridArray[x, y]);
+        if(values.Length == 2) {
+            if(((x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1))) {
+                values[0] = values[1];
+            }
+        }
+        gridArray[x, y] = CreateWorldObject(values[0], GetWorldPosition(x, y));
+        this.changeCount++;
+    }
+
     public void SetValue(int x, int y, GameObject value) {
         if(x < 0 || x >= width || y < 0 || y >= height) return;
+        if(this.changeCount > 57 && ((x == 1 && y == 3) || (x == 14 && y == 3))) return;
         if(gridArray[x, y] != null) GameObject.Destroy(gridArray[x, y]);
         gridArray[x, y] = CreateWorldObject(value, GetWorldPosition(x, y));
+        this.changeCount++;
     }
 
     public void SetValue(Vector3 worldPosition, GameObject value) {
         int x, y;
         GetXY(worldPosition, out x, out y);
         SetValue(x, y, value);
+    }
+
+    public void SetValue(Vector3 worldPosition, GameObject[] values) {
+        int x, y;
+        GetXY(worldPosition, out x, out y);
+        SetValue(x, y, values);
     }
 
     public GameObject GetValue(int x, int y) {

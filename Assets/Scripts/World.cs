@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class World : MonoBehaviour
 {
-    public GameObject LightTile, DarkTile, Spike, Wall, StartPlatform, EndPlatform;
+    public GameObject Player, LightTile, DarkTile, Spike, Wall, StartPlatform, EndPlatform, StartTeleporter, EndTeleporter;
     int width, height;
     int objectNum;
     string currObject = "EMPTY";
+    GameObject playerInstance;
     Game game;
     Grid grid;
 
@@ -15,12 +16,16 @@ public class World : MonoBehaviour
         game = new Game();
         width = 16;
         height = 7;
+        playerInstance = null;
         generateWorld();
     }
 
     void Update() {
         if(Input.GetMouseButtonDown(0)) {
             switch(objectNum) {
+                case 0:
+                    grid.SetValue(GetMouseWorldPosition(), new GameObject[] { LightTile, DarkTile });
+                    break;
                 case 1:
                     grid.SetValue(GetMouseWorldPosition(), Wall);
                     break;
@@ -28,10 +33,10 @@ public class World : MonoBehaviour
                     grid.SetValue(GetMouseWorldPosition(), Spike);
                     break;
                 case 3:
-                    grid.SetValue(GetMouseWorldPosition(), StartPlatform);
+                    grid.SetValue(GetMouseWorldPosition(), StartTeleporter);
                     break;
                 case 4:
-                    grid.SetValue(GetMouseWorldPosition(), EndPlatform);
+                    grid.SetValue(GetMouseWorldPosition(), EndTeleporter);
                     break;
             }
         }
@@ -61,9 +66,12 @@ public class World : MonoBehaviour
                 }
             }
         }
-        // grid.SetValue(1, 3, StartPlatform);
-        // grid.SetValue(14, 3, EndPlatform);
-        grid.SetValue(2, 3, Wall);
+        grid.SetValue(1, 3, StartPlatform);
+        grid.SetValue(14, 3, EndPlatform);
+    }
+
+    public void OnButtonPressEmpty() {
+        objectNum = 0;
     }
 
     public void OnButtonPressWall(){
