@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class World : MonoBehaviour
 {
-    public GameObject Player, LightTile, DarkTile, Spike, Wall, StartPlatform, EndPlatform, StartTeleporter, EndTeleporter;
+    public GameObject LightTile, DarkTile, Spike, Wall, StartPlatform, EndPlatform, StartTeleporter, EndTeleporter;
     int width, height;
     int objectNum;
     string currObject = "EMPTY";

@@ -17,7 +17,7 @@ public class StartTP : MonoBehaviour{
     }
 
     void Update(){
-        EndTeleport = GameObject.Find("End");
+        EndTeleport = GameObject.Find("EndTeleport");
         Player = GameObject.Find("Player");
         if (portal){
             timer -= Time.deltaTime;

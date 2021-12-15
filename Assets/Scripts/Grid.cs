@@ -47,7 +47,7 @@ public class Grid {
         switch(worldObject.tag) {
             case "Wall":
                 worldObject.transform.localScale *= 3f;
-                worldObject.transform.position += Vector3.up * this.cellSize * 0.2f;
+                // worldObject.transform.position += Vector3.up * this.cellSize * 0.2f;
                 break;
             case "Spikes":
                 worldObject.transform.localScale *= 3f;
